@@ -1,0 +1,15 @@
+# kustomize-k8s-demo/base/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-app-service
+  labels:
+    app: nginx
+spec:
+  selector:
+    app: nginx
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP

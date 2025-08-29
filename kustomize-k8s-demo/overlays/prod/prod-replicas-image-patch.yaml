@@ -1,0 +1,16 @@
+# kustomize-k8s-demo/overlays/prod/prod-replicas-image-patch.yaml
+# Strategic Merge Patch: Increases replicas and sets a specific image version.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-app # Must match the base resource name
+spec:
+  replicas: 3 # Increased replicas for production
+  template:
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.23.4 # Specific, stable image for production
+        env:
+        - name: NODE_ENV
+          value: production

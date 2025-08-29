@@ -1,0 +1,9 @@
+# kustomize-k8s-demo/overlays/prod/prod-resources-json-patch.yaml
+# JSON Patch: Sets specific resource limits for the production container.
+# JSON patches are more precise for modifying or deleting array elements or specific fields.
+- op: replace # Operation to perform
+  path: /spec/template/spec/containers/0/resources/limits/cpu # Path to the field to modify
+  value: "500m"
+- op: replace
+  path: /spec/template/spec/containers/0/resources/limits/memory
+  value: "256Mi"

@@ -1,0 +1,33 @@
+# kustomize-k8s-demo/overlays/prod/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+bases:
+  - ../../base # Reference to the base configuration
+
+namespace: prod-env # All resources will be deployed to the 'prod-env' namespace
+namePrefix: prod-   # All resource names will be prefixed with 'prod-'
+
+resources:
+  - prod-ingress.yaml
+  - prod-configmap.yaml # Add the ConfigMap resource
+
+patches:
+  # Strategic Merge Patch: Changes replicas and image
+  - path: prod-replicas-image-patch.yaml
+    target:
+      kind: Deployment
+      name: nginx-app
+
+  # JSON Patch: Modifies resource limits
+  # Note: For JSON patches, the 'target' applies to the *resource being patched*,
+  # and the 'path' in the patch file is absolute from the root of that resource.
+  - path: prod-resources-json-patch.yaml
+    target:
+      kind: Deployment
+      name: nginx-app
+
+  # Strategic Merge Patch: Adds the ConfigMap volume mount
+  - path: prod-configmap-patch.yaml
+    target:
+      kind: Deployment
+      name: nginx-app

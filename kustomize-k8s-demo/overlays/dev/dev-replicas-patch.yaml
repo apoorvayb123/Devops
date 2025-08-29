@@ -1,0 +1,17 @@
+# kustomize-k8s-demo/overlays/dev/dev-replicas-patch.yaml
+# Strategic Merge Patch: Changes replicas to 1 and adds an environment variable.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-app # Must match the base resource name
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: nginx
+        env:
+        - name: NODE_ENV
+          value: development
+        - name: DEBUG_MODE
+          value: "true"

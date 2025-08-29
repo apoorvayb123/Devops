@@ -1,0 +1,19 @@
+# kustomize-k8s-demo/overlays/prod/prod-configmap-patch.yaml
+# Strategic Merge Patch: Mounts the production ConfigMap as a volume.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-app # Must match the base resource name
+spec:
+  template:
+    spec:
+      volumes: # Add a new volume
+      - name: nginx-config-volume
+        configMap:
+          name: nginx-config
+      containers:
+      - name: nginx
+        volumeMounts: # Mount the volume into the container
+        - name: nginx-config-volume
+          mountPath: /etc/nginx/conf.d/nginx.conf # Specific path for Nginx config
+          subPath: nginx.conf # Mount only the specific file from ConfigMap
